@@ -2,6 +2,7 @@
 
 project_name_init="init_dir"
 project_name=${project_name_init}
+Check_OS='N'
 
 declare -a ls_array=( `ls` )
 declare -au HAL_array=()
@@ -31,6 +32,9 @@ printf "please enter MCAL modules:-
       press Enter to stop: "
 read -a MCAL_array
 
+printf "would you like an OS (Y/N)?"
+read Check_OS
+
 # make dir for project folders
 mkdir ${project_name}
 mkdir ${project_name}/HAL
@@ -38,6 +42,7 @@ mkdir ${project_name}/MCAL
 mkdir ${project_name}/APP
 mkdir ${project_name}/APP/build
 mkdir ${project_name}/LIB
+mkdir ${project_name}/OS
 
 # make files for hardware modules
 cd ${project_name}/HAL
@@ -63,11 +68,14 @@ do
     touch ${module}/${module}_program.c
 done
 
-# make files for lib layer
+# create files for lib layer
 cd ../LIB
 cp /home/soliman/AVR/ATmega32/AVR_COTS/LIB/* .
 
-# make files for App layer
+cd ../OS
+cp -rp /home/soliman/AVR/ATmega32/AVR_COTS/OS/* .
+
+# create files for App layer
 cd ../APP 
 touch main.c
 touch CMakeLists.txt
